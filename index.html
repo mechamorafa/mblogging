@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Microblogging</title>
+</head>
+<body>
+<div>
+    <h1>Microblogging</h1>
+    <textarea id="postContent" rows="3" placeholder="Write your post"></textarea>
+    <br>
+    <button onclick="createPost()">Post</button>
+</div>
+<hr>
+<div id="postList">
+</div>
+
+<script>
+    // array to store all the posts
+    let posts = [];
+
+    // function to create a new post
+    function createPost() {
+        // get the post content from the textarea
+        const content = document.getElementById("postContent").value;
+
+        // create a new post object with the content and current date/time
+        const post = {
+            content: content,
+            date: new Date()
+        };
+
+        // add the new post to the posts array
+        posts.push(post);
+
+        // clear the textarea
+        document.getElementById("postContent").value = "";
+
+        // refresh the post list
+        displayPosts();
+    }
+
+    // function to display all the posts in the postList div
+    function displayPosts() {
+        // get the postList div
+        const postList = document.getElementById("postList");
+
+        // clear the div
+        postList.innerHTML = "";
+
+        // loop through all the posts and create a new div for each one
+        posts.forEach(post => {
+            const postDiv = document.createElement("div");
+
+            // format the date/time as "Month Day, Year at Hour:Minute"
+            const dateOptions = {
+                month: "long",
+                day: "numeric",
+                year: "numeric",
+                hour: "numeric",
+                minute: "numeric",
+                hour12: true
+            };
+            const formattedDate = post.date.toLocaleString(undefined, dateOptions);
+
+            // set the post div content as the post content and date/time
+            postDiv.innerHTML = `<p>${post.content}</p><p>Posted on ${formattedDate}</p>`;
+
+            // add the post div to the postList div
+            postList.appendChild(postDiv);
+        });
+    }
+</script>
+</body>
+</html>
